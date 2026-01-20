@@ -1,0 +1,711 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import './styles/skeleton.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   WORKING WEATHER EFFECTS - FINAL VERSION
+   Using visible gradients and patterns
+   ============================================ */
+
+.weather-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.weather-card-effect {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: inherit;
+  z-index: 0;
+}
+
+/* ============================================
+   SUNNY THEME - Natural sun with rays
+   ============================================ */
+
+@keyframes sunRaysRotate {
+  0% { transform: rotate(0deg); opacity: 0.6; }
+  50% { opacity: 0.8; }
+  100% { transform: rotate(360deg); opacity: 0.6; }
+}
+
+@keyframes sunGlowPulse {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+
+.weather-card-sunny {
+  background: radial-gradient(circle at 80% 20%, rgba(255, 240, 180, 0.25) 0%, transparent 55%);
+}
+
+.weather-card-sunny::before {
+  content: '';
+  position: absolute;
+  top: 5%;
+  right: 8%;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 245, 200, 1) 0%,
+    rgba(255, 235, 150, 0.95) 12%,
+    rgba(255, 220, 100, 0.85) 25%,
+    rgba(255, 200, 80, 0.65) 40%,
+    rgba(255, 180, 60, 0.4) 60%,
+    rgba(255, 160, 40, 0.2) 80%,
+    transparent 100%
+  );
+  border-radius: 50%;
+  animation: sunGlowPulse 4s ease-in-out infinite;
+  filter: blur(1.5px);
+  box-shadow: 
+    0 0 30px rgba(255, 235, 150, 0.8),
+    0 0 60px rgba(255, 200, 80, 0.6),
+    0 0 100px rgba(255, 180, 60, 0.4);
+}
+
+.weather-card-sunny::after {
+  content: '';
+  position: absolute;
+  top: 5%;
+  right: 8%;
+  width: 180px;
+  height: 180px;
+  background: 
+    linear-gradient(0deg, transparent 42%, rgba(255, 240, 180, 0.5) 47%, rgba(255, 240, 180, 0.7) 50%, rgba(255, 240, 180, 0.5) 53%, transparent 58%),
+    linear-gradient(45deg, transparent 42%, rgba(255, 240, 180, 0.45) 47%, rgba(255, 240, 180, 0.65) 50%, rgba(255, 240, 180, 0.45) 53%, transparent 58%),
+    linear-gradient(90deg, transparent 42%, rgba(255, 240, 180, 0.5) 47%, rgba(255, 240, 180, 0.7) 50%, rgba(255, 240, 180, 0.5) 53%, transparent 58%),
+    linear-gradient(135deg, transparent 42%, rgba(255, 240, 180, 0.45) 47%, rgba(255, 240, 180, 0.65) 50%, rgba(255, 240, 180, 0.45) 53%, transparent 58%);
+  animation: sunRaysRotate 40s linear infinite;
+  transform-origin: center;
+  filter: blur(0.5px);
+}
+
+/* ============================================
+   RAINY THEME - Realistic rain drops
+   ============================================ */
+
+@keyframes rainDrop {
+  0% { transform: translateY(-110%) scaleY(0.8); opacity: 0; }
+  5% { opacity: 0.8; }
+  95% { opacity: 0.6; }
+  100% { transform: translateY(110%) scaleY(1.2); opacity: 0; }
+}
+
+@keyframes rainSplash {
+  0% { transform: scale(0); opacity: 0.8; }
+  50% { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+.weather-card-rainy::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    repeating-linear-gradient(
+      105deg,
+      transparent 0px,
+      transparent 8px,
+      rgba(120, 160, 255, 0.8) 8px,
+      rgba(120, 160, 255, 0.8) 9px,
+      transparent 9px,
+      transparent 20px
+    ),
+    repeating-linear-gradient(
+      108deg,
+      transparent 0px,
+      transparent 12px,
+      rgba(110, 155, 255, 0.7) 12px,
+      rgba(110, 155, 255, 0.7) 13px,
+      transparent 13px,
+      transparent 25px
+    ),
+    repeating-linear-gradient(
+      102deg,
+      transparent 0px,
+      transparent 10px,
+      rgba(100, 150, 255, 0.6) 10px,
+      rgba(100, 150, 255, 0.6) 11px,
+      transparent 11px,
+      transparent 22px
+    );
+  animation: rainDrop 0.5s linear infinite;
+}
+
+.weather-card-rainy::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20%;
+  background: 
+    radial-gradient(circle at 15% 100%, rgba(120, 160, 255, 0.4) 0%, transparent 10%),
+    radial-gradient(circle at 35% 100%, rgba(110, 155, 255, 0.35) 0%, transparent 10%),
+    radial-gradient(circle at 55% 100%, rgba(120, 160, 255, 0.4) 0%, transparent 10%),
+    radial-gradient(circle at 75% 100%, rgba(110, 155, 255, 0.35) 0%, transparent 10%),
+    radial-gradient(circle at 90% 100%, rgba(120, 160, 255, 0.4) 0%, transparent 10%);
+  animation: rainSplash 1.5s ease-out infinite;
+}
+
+/* ============================================
+   STORMY THEME - Intense storm with lightning
+   ============================================ */
+
+@keyframes stormRain {
+  0% { transform: translateY(-110%) scaleY(0.7); opacity: 0; }
+  3% { opacity: 0.95; }
+  97% { opacity: 0.9; }
+  100% { transform: translateY(110%) scaleY(1.3); opacity: 0; }
+}
+
+@keyframes lightningStrike {
+  0%, 94%, 100% { opacity: 0; }
+  95% { opacity: 1; }
+  96% { opacity: 0.3; }
+  97% { opacity: 0.95; }
+  98% { opacity: 0.2; }
+  99% { opacity: 0.9; }
+}
+
+.weather-card-stormy::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    repeating-linear-gradient(
+      108deg,
+      transparent 0px,
+      transparent 6px,
+      rgba(160, 170, 255, 0.95) 6px,
+      rgba(160, 170, 255, 0.95) 7px,
+      transparent 7px,
+      transparent 15px
+    ),
+    repeating-linear-gradient(
+      105deg,
+      transparent 0px,
+      transparent 8px,
+      rgba(150, 165, 255, 0.85) 8px,
+      rgba(150, 165, 255, 0.85) 9px,
+      transparent 9px,
+      transparent 18px
+    );
+  animation: stormRain 0.3s linear infinite;
+}
+
+.weather-card-stormy::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at 40% 30%, rgba(255, 255, 255, 1) 0%, rgba(230, 240, 255, 0.8) 5%, transparent 15%),
+    radial-gradient(ellipse at 60% 25%, rgba(240, 245, 255, 0.95) 0%, rgba(200, 220, 255, 0.7) 8%, transparent 20%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, transparent 25%);
+  animation: lightningStrike 6s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+
+/* ============================================
+   SNOWY THEME - Gentle snowfall with MORE snowflakes
+   ============================================ */
+
+@keyframes snowFall {
+  0% { transform: translateY(-10%) translateX(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 0.8; }
+  100% { transform: translateY(110%) translateX(80px) rotate(360deg); opacity: 0; }
+}
+
+@keyframes snowFall2 {
+  0% { transform: translateY(-10%) translateX(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.9; }
+  90% { opacity: 0.7; }
+  100% { transform: translateY(110%) translateX(-60px) rotate(-360deg); opacity: 0; }
+}
+
+@keyframes snowFall3 {
+  0% { transform: translateY(-10%) translateX(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.85; }
+  90% { opacity: 0.65; }
+  100% { transform: translateY(110%) translateX(100px) rotate(360deg); opacity: 0; }
+}
+
+@keyframes snowFall4 {
+  0% { transform: translateY(-10%) translateX(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(110%) translateX(-40px) rotate(-360deg); opacity: 0; }
+}
+
+.weather-card-snowy {
+  background: linear-gradient(to bottom, rgba(225, 245, 254, 0.2) 0%, transparent 60%);
+}
+
+.weather-card-snowy::before {
+  content: '❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️';
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  font-size: 28px;
+  letter-spacing: 50px;
+  word-spacing: 35px;
+  opacity: 0.9;
+  animation: snowFall 12s linear infinite;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.weather-card-snowy::after {
+  content: '❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️';
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  font-size: 20px;
+  letter-spacing: 70px;
+  word-spacing: 45px;
+  opacity: 0.75;
+  animation: snowFall2 16s linear infinite 3s;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
+
+/* ============================================
+   CLOUDY THEME - LOTS of visible clouds
+   ============================================ */
+
+@keyframes cloudDrift1 {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(150%); }
+}
+
+@keyframes cloudDrift2 {
+  0% { transform: translateX(-60%); }
+  100% { transform: translateX(160%); }
+}
+
+@keyframes cloudDrift3 {
+  0% { transform: translateX(-40%); }
+  100% { transform: translateX(140%); }
+}
+
+.weather-card-cloudy {
+  background: linear-gradient(to bottom, rgba(200, 210, 220, 0.3) 0%, transparent 60%);
+}
+
+.weather-card-cloudy::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(ellipse 200px 80px at 20% 20%, rgba(230, 230, 230, 0.95) 0%, rgba(210, 210, 210, 0.7) 50%, transparent 100%),
+    radial-gradient(ellipse 180px 70px at 60% 15%, rgba(225, 225, 225, 0.9) 0%, rgba(205, 205, 205, 0.65) 50%, transparent 100%),
+    radial-gradient(ellipse 220px 85px at 85% 25%, rgba(235, 235, 235, 0.95) 0%, rgba(215, 215, 215, 0.7) 50%, transparent 100%),
+    radial-gradient(ellipse 190px 75px at 40% 45%, rgba(230, 230, 230, 0.9) 0%, rgba(210, 210, 210, 0.65) 50%, transparent 100%),
+    radial-gradient(ellipse 210px 80px at 75% 50%, rgba(225, 225, 225, 0.95) 0%, rgba(205, 205, 205, 0.7) 50%, transparent 100%),
+    radial-gradient(ellipse 180px 70px at 15% 70%, rgba(235, 235, 235, 0.9) 0%, rgba(215, 215, 215, 0.65) 50%, transparent 100%),
+    radial-gradient(ellipse 200px 75px at 50% 65%, rgba(230, 230, 230, 0.95) 0%, rgba(210, 210, 210, 0.7) 50%, transparent 100%),
+    radial-gradient(ellipse 190px 80px at 80% 75%, rgba(225, 225, 225, 0.9) 0%, rgba(205, 205, 205, 0.65) 50%, transparent 100%);
+  animation: cloudDrift1 40s linear infinite;
+  filter: blur(8px);
+}
+
+.weather-card-cloudy::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(ellipse 170px 65px at 35% 30%, rgba(220, 220, 220, 0.85) 0%, rgba(200, 200, 200, 0.6) 50%, transparent 100%),
+    radial-gradient(ellipse 190px 70px at 70% 35%, rgba(215, 215, 215, 0.8) 0%, rgba(195, 195, 195, 0.55) 50%, transparent 100%),
+    radial-gradient(ellipse 160px 60px at 10% 55%, rgba(225, 225, 225, 0.85) 0%, rgba(205, 205, 205, 0.6) 50%, transparent 100%),
+    radial-gradient(ellipse 180px 75px at 55% 60%, rgba(220, 220, 220, 0.8) 0%, rgba(200, 200, 200, 0.55) 50%, transparent 100%),
+    radial-gradient(ellipse 170px 65px at 90% 65%, rgba(215, 215, 215, 0.85) 0%, rgba(195, 195, 195, 0.6) 50%, transparent 100%),
+    radial-gradient(ellipse 190px 70px at 25% 85%, rgba(225, 225, 225, 0.8) 0%, rgba(205, 205, 205, 0.55) 50%, transparent 100%),
+    radial-gradient(ellipse 180px 75px at 65% 90%, rgba(220, 220, 220, 0.85) 0%, rgba(200, 200, 200, 0.6) 50%, transparent 100%);
+  animation: cloudDrift2 50s linear infinite;
+  filter: blur(10px);
+}
+
+/* ============================================
+   PARTLY CLOUDY - Sun with MORE clouds
+   ============================================ */
+
+.weather-card-partly-cloudy {
+  background: radial-gradient(circle at 75% 22%, rgba(255, 240, 180, 0.18) 0%, transparent 45%);
+}
+
+.weather-card-partly-cloudy::before {
+  content: '';
+  position: absolute;
+  top: 8%;
+  right: 12%;
+  width: 130px;
+  height: 130px;
+  background: radial-gradient(
+    circle, 
+    rgba(255, 245, 200, 0.95) 0%, 
+    rgba(255, 235, 150, 0.8) 30%, 
+    rgba(255, 220, 100, 0.5) 60%, 
+    transparent 80%
+  );
+  border-radius: 50%;
+  animation: sunGlowPulse 5s ease-in-out infinite;
+  box-shadow: 0 0 35px rgba(255, 220, 100, 0.6);
+  filter: blur(1px);
+}
+
+.weather-card-partly-cloudy::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(ellipse 180px 70px at 25% 35%, rgba(230, 230, 230, 0.9) 0%, rgba(210, 210, 210, 0.65) 50%, transparent 100%),
+    radial-gradient(ellipse 200px 75px at 55% 40%, rgba(225, 225, 225, 0.85) 0%, rgba(205, 205, 205, 0.6) 50%, transparent 100%),
+    radial-gradient(ellipse 170px 65px at 80% 45%, rgba(235, 235, 235, 0.9) 0%, rgba(215, 215, 215, 0.65) 50%, transparent 100%),
+    radial-gradient(ellipse 190px 70px at 15% 70%, rgba(230, 230, 230, 0.85) 0%, rgba(210, 210, 210, 0.6) 50%, transparent 100%),
+    radial-gradient(ellipse 180px 75px at 45% 75%, rgba(225, 225, 225, 0.9) 0%, rgba(205, 205, 205, 0.65) 50%, transparent 100%),
+    radial-gradient(ellipse 200px 70px at 75% 80%, rgba(235, 235, 235, 0.85) 0%, rgba(215, 215, 215, 0.6) 50%, transparent 100%);
+  animation: cloudDrift3 45s linear infinite;
+  filter: blur(9px);
+}
+
+/* ============================================
+   FOGGY THEME - ENHANCED VISIBLE fog with blur effect
+   ============================================ */
+
+@keyframes fogRoll {
+  0% { transform: translateX(-20%); opacity: 0.85; }
+  50% { transform: translateX(20%); opacity: 1; }
+  100% { transform: translateX(-20%); opacity: 0.85; }
+}
+
+@keyframes fogRoll2 {
+  0% { transform: translateX(15%); opacity: 0.8; }
+  50% { transform: translateX(-15%); opacity: 0.95; }
+  100% { transform: translateX(15%); opacity: 0.8; }
+}
+
+.weather-card-foggy {
+  background: linear-gradient(to bottom, rgba(240, 240, 240, 0.4) 0%, rgba(230, 230, 230, 0.3) 50%, rgba(220, 220, 220, 0.2) 100%);
+}
+
+.weather-card-foggy::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -20%;
+  width: 140%;
+  height: 100%;
+  background: 
+    radial-gradient(ellipse 250px 100px at 20% 20%, rgba(220, 220, 220, 0.95) 0%, rgba(200, 200, 200, 0.7) 40%, transparent 100%),
+    radial-gradient(ellipse 220px 90px at 60% 15%, rgba(215, 215, 215, 0.9) 0%, rgba(195, 195, 195, 0.65) 40%, transparent 100%),
+    radial-gradient(ellipse 270px 110px at 85% 25%, rgba(225, 225, 225, 0.95) 0%, rgba(205, 205, 205, 0.7) 40%, transparent 100%),
+    radial-gradient(ellipse 240px 95px at 40% 45%, rgba(220, 220, 220, 0.9) 0%, rgba(200, 200, 200, 0.65) 40%, transparent 100%),
+    radial-gradient(ellipse 260px 100px at 75% 50%, rgba(215, 215, 215, 0.95) 0%, rgba(195, 195, 195, 0.7) 40%, transparent 100%),
+    radial-gradient(ellipse 230px 90px at 15% 70%, rgba(225, 225, 225, 0.9) 0%, rgba(205, 205, 205, 0.65) 40%, transparent 100%),
+    radial-gradient(ellipse 250px 95px at 55% 75%, rgba(220, 220, 220, 0.95) 0%, rgba(200, 200, 200, 0.7) 40%, transparent 100%);
+  animation: fogRoll 12s ease-in-out infinite;
+  filter: blur(18px);
+}
+
+.weather-card-foggy::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -20%;
+  width: 140%;
+  height: 100%;
+  background: 
+    radial-gradient(ellipse 200px 80px at 35% 30%, rgba(210, 210, 210, 0.85) 0%, rgba(190, 190, 190, 0.6) 40%, transparent 100%),
+    radial-gradient(ellipse 220px 85px at 70% 35%, rgba(205, 205, 205, 0.8) 0%, rgba(185, 185, 185, 0.55) 40%, transparent 100%),
+    radial-gradient(ellipse 190px 75px at 10% 55%, rgba(215, 215, 215, 0.85) 0%, rgba(195, 195, 195, 0.6) 40%, transparent 100%),
+    radial-gradient(ellipse 210px 90px at 55% 60%, rgba(210, 210, 210, 0.8) 0%, rgba(190, 190, 190, 0.55) 40%, transparent 100%),
+    radial-gradient(ellipse 200px 80px at 85% 65%, rgba(205, 205, 205, 0.85) 0%, rgba(185, 185, 185, 0.6) 40%, transparent 100%),
+    radial-gradient(ellipse 220px 85px at 25% 85%, rgba(215, 215, 215, 0.8) 0%, rgba(195, 195, 195, 0.55) 40%, transparent 100%);
+  animation: fogRoll2 16s ease-in-out infinite;
+  filter: blur(22px);
+}
+
+/* ============================================
+   WINDY THEME - Strong wind streaks
+   ============================================ */
+
+@keyframes windStreak {
+  0% { transform: translateX(-200%) scaleX(0.3); opacity: 0; }
+  15% { opacity: 0.9; }
+  85% { opacity: 0.9; }
+  100% { transform: translateX(300%) scaleX(2); opacity: 0; }
+}
+
+.weather-card-windy::before {
+  content: '';
+  position: absolute;
+  top: 18%;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(100, 200, 255, 0.3) 15%, 
+    rgba(100, 200, 255, 0.9) 35%, 
+    rgba(100, 200, 255, 1) 50%, 
+    rgba(100, 200, 255, 0.9) 65%, 
+    rgba(100, 200, 255, 0.3) 85%, 
+    transparent
+  );
+  animation: windStreak 1.5s ease-in-out infinite;
+  box-shadow: 0 0 15px rgba(100, 200, 255, 0.8);
+}
+
+.weather-card-windy::after {
+  content: '';
+  position: absolute;
+  top: 65%;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(100, 200, 255, 0.25) 15%, 
+    rgba(100, 200, 255, 0.8) 35%, 
+    rgba(100, 200, 255, 0.95) 50%, 
+    rgba(100, 200, 255, 0.8) 65%, 
+    rgba(100, 200, 255, 0.25) 85%, 
+    transparent
+  );
+  animation: windStreak 2s ease-in-out infinite 0.5s;
+  box-shadow: 0 0 12px rgba(100, 200, 255, 0.7);
+}
+
+/* ============================================
+   CLEAR NIGHT - VISIBLE stars across entire card
+   ============================================ */
+
+@keyframes starTwinkle1 {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes starTwinkle2 {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.9; }
+}
+
+@keyframes starTwinkle3 {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.95; }
+}
+
+@keyframes moonGlow {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 1; }
+}
+
+.weather-card-clear-night::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  right: 12%;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(240, 240, 255, 0.8) 40%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.6);
+  animation: moonGlow 5s ease-in-out infinite;
+}
+
+.weather-card-clear-night::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 15% 20%, white 1px, transparent 1px),
+    radial-gradient(circle at 35% 15%, white 1.5px, transparent 1.5px),
+    radial-gradient(circle at 55% 25%, white 1px, transparent 1px),
+    radial-gradient(circle at 75% 18%, white 2px, transparent 2px),
+    radial-gradient(circle at 85% 30%, white 1px, transparent 1px),
+    radial-gradient(circle at 25% 45%, white 1.5px, transparent 1.5px),
+    radial-gradient(circle at 45% 50%, white 1px, transparent 1px),
+    radial-gradient(circle at 65% 42%, white 2px, transparent 2px),
+    radial-gradient(circle at 80% 55%, white 1px, transparent 1px),
+    radial-gradient(circle at 92% 48%, white 1.5px, transparent 1.5px),
+    radial-gradient(circle at 18% 70%, white 1px, transparent 1px),
+    radial-gradient(circle at 38% 75%, white 2px, transparent 2px),
+    radial-gradient(circle at 58% 68%, white 1px, transparent 1px),
+    radial-gradient(circle at 72% 78%, white 1.5px, transparent 1.5px),
+    radial-gradient(circle at 88% 72%, white 1px, transparent 1px),
+    radial-gradient(circle at 12% 88%, white 1.5px, transparent 1.5px),
+    radial-gradient(circle at 32% 92%, white 1px, transparent 1px),
+    radial-gradient(circle at 52% 85%, white 2px, transparent 2px),
+    radial-gradient(circle at 68% 95%, white 1px, transparent 1px),
+    radial-gradient(circle at 95% 90%, white 1.5px, transparent 1.5px);
+  background-size: 100% 100%;
+  animation: starTwinkle1 3s ease-in-out infinite, starTwinkle2 4s ease-in-out infinite 1s, starTwinkle3 5s ease-in-out infinite 2s;
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.8));
+}
+
+/* ============================================
+   HEATWAVE - Shimmering heat
+   ============================================ */
+
+@keyframes heatShimmer {
+  0%, 100% { transform: translateY(0) scaleY(1); filter: blur(0px); }
+  25% { transform: translateY(-3px) scaleY(1.02); filter: blur(1px); }
+  50% { transform: translateY(0) scaleY(0.98); filter: blur(0.5px); }
+  75% { transform: translateY(3px) scaleY(1.02); filter: blur(1px); }
+}
+
+.weather-card-heatwave::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 15px,
+      rgba(255, 150, 0, 0.09) 15px,
+      rgba(255, 150, 0, 0.09) 30px
+    );
+  animation: heatShimmer 3s ease-in-out infinite;
+}
+
+.weather-card-heatwave::after {
+  content: '';
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(255, 160, 50, 0.85) 0%, rgba(255, 140, 30, 0.6) 35%, transparent 75%);
+  border-radius: 50%;
+  animation: sunGlowPulse 3.5s ease-in-out infinite;
+  box-shadow: 0 0 65px rgba(255, 150, 0, 0.7);
+  filter: blur(2px);
+}
+
+/* ============================================
+   TORNADO - VISIBLE funnel with debris
+   ============================================ */
+
+@keyframes tornadoSpin {
+  0% { transform: translateX(-50%) rotate(0deg); }
+  100% { transform: translateX(-50%) rotate(360deg); }
+}
+
+@keyframes debrisFloat {
+  0% { transform: translateY(100%) rotate(0deg); opacity: 0; }
+  20% { opacity: 0.8; }
+  80% { opacity: 0.6; }
+  100% { transform: translateY(-50%) rotate(720deg); opacity: 0; }
+}
+
+.weather-card-tornado::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  width: 150px;
+  height: 80%;
+  background: 
+    linear-gradient(to bottom,
+      transparent 0%,
+      rgba(70, 60, 50, 0.3) 10%,
+      rgba(60, 50, 40, 0.6) 30%,
+      rgba(50, 40, 30, 0.8) 50%,
+      rgba(40, 30, 20, 0.9) 70%,
+      rgba(50, 40, 30, 0.8) 90%,
+      rgba(60, 50, 40, 0.6) 100%
+    );
+  clip-path: polygon(45% 0%, 55% 0%, 65% 100%, 35% 100%);
+  transform: translateX(-50%);
+  filter: blur(3px);
+  animation: tornadoSpin 3s linear infinite;
+}
+
+.weather-card-tornado::after {
+  content: '';
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: rgba(80, 70, 60, 0.9);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  box-shadow:
+    20px 40px 0 4px rgba(70, 60, 50, 0.8),
+    -30px 80px 0 3px rgba(60, 50, 40, 0.8),
+    40px 120px 0 5px rgba(80, 70, 60, 0.8),
+    -20px 160px 0 4px rgba(70, 60, 50, 0.8),
+    10px 200px 0 3px rgba(60, 50, 40, 0.8);
+  animation: debrisFloat 4s linear infinite;
+}
+
+/* ============================================
+   BLIZZARD - HEAVY VISIBLE falling snow
+   ============================================ */
+
+@keyframes blizzardFall1 {
+  0% { transform: translateY(-20px) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 0.95; }
+  100% { transform: translateY(calc(100% + 100px)) translateX(-20px); opacity: 0; }
+}
+
+@keyframes blizzardFall2 {
+  0% { transform: translateY(-20px) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 0.9; }
+  100% { transform: translateY(calc(100% + 100px)) translateX(20px); opacity: 0; }
+}
+
+.weather-card-blizzard::before {
+  content: '❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄';
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  font-size: 24px;
+  letter-spacing: 40px;
+  word-spacing: 30px;
+  opacity: 0.95;
+  animation: blizzardFall1 8s linear infinite;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+  color: white;
+}
+
+.weather-card-blizzard::after {
+  content: '❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄';
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  font-size: 20px;
+  letter-spacing: 50px;
+  word-spacing: 35px;
+  opacity: 0.85;
+  animation: blizzardFall2 10s linear infinite 2s;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+  color: white;
+}
