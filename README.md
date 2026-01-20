@@ -11,7 +11,7 @@ The project demonstrates product thinking, information architecture, accessibili
 
 🎥 **Prototype Walkthrough (Desktop + Mobile + Themes):**  
 [Watch the video - web mode](https://youtu.be/RwNyMDuMT6Q)
-[![Mobile mode](https://www.youtube.com/shorts/GFJ6SSkQIXQ)](https://www.youtube.com/shorts/GFJ6SSkQIXQ)
+[![Mobile mode]()](https://youtube.com/shorts/680z_gAvwJM)
 
 
 ---
