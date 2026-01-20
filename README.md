@@ -11,8 +11,7 @@ The project demonstrates product thinking, information architecture, accessibili
 
 🎥 **Prototype Walkthrough (Desktop + Mobile + Themes):**  
 [Watch the full video - web mode](./SkyBulletin_web.mp4)
-
-(./SkyBulletin.mp4)[![Mobile mode](https://www.youtube.com/shorts/GFJ6SSkQIXQ)](https://www.youtube.com/shorts/GFJ6SSkQIXQ)
+[![Mobile mode](https://www.youtube.com/shorts/GFJ6SSkQIXQ)](https://www.youtube.com/shorts/GFJ6SSkQIXQ)
 
 
 ---
