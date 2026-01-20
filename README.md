@@ -10,7 +10,7 @@ Instead of a single-location snapshot, the product is organized around real-life
 The project demonstrates product thinking, information architecture, accessibility-first design, and a component-driven front-end system.
 
 🎥 **Prototype Walkthrough (Desktop + Mobile + Themes):**  
-[Watch the full video - web mode](./SkyBulletin_web.mp4)
+[Watch the video - web mode](https://youtu.be/RwNyMDuMT6Q)
 [![Mobile mode](https://www.youtube.com/shorts/GFJ6SSkQIXQ)](https://www.youtube.com/shorts/GFJ6SSkQIXQ)
 
 
